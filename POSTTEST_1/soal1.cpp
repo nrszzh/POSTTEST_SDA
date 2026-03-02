@@ -27,7 +27,7 @@ int main() {
     return 0;
 }
 
-// Hitung manual Tmin(n), Tmax(n)
+// hitung manual Tmin(n), Tmax(n)
 // ---------------------------------------------
 // |Pseudocode        | Cost | (Tmin) | (Tmax) |
 // -----------------  |------|--------|---------
@@ -41,7 +41,7 @@ int main() {
 // Tmax(n) = c1 + c2(n) + c3(n-1) + c4(n-1) + c5 = (c2+c3+c4)n + (c1-c3-c4+c5)
 
 
-// Analisis Big-O
+// analisis Big-O
 // Best Case (Tmin): terjadi jika nilai terkecil ada di indeks 0(ascending). 
 // variabel min di dalam kode IF tidak akan dijalankan karena dia mengambil nilai 1 yang di
 // indeks 0 yang dimana itu sudah memenuhi syarat pada kode if. kompleksitasnya O(n).
