@@ -22,9 +22,11 @@ int main() {
     for (int i = 0; i < n; i++) cout << bil_prima[i] << " "; 
     reverseArray(bil_prima, n);
     cout << endl;
+
     cout << "Array sesudah dibalik: ";
     for (int i = 0; i < n; i++) cout << bil_prima[i] << " ";
     cout << endl;
+    
     cout << "Alamat memori elemen:" << endl;
     for (int i = 0; i < n; i++) {
         cout << bil_prima[i] 

@@ -34,4 +34,3 @@ int main() {
     cout << "IPK  : " << data[tertinggi].ipk << endl;
     return 0;
 }
-
