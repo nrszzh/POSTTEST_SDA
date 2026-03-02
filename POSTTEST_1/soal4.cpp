@@ -9,6 +9,7 @@ void tukar(int* a, int* b) {
 
 int main() {
     int x, y;
+    
     cout << "Masukkan nilai x: ";
     cin >> x;
     cout << "Masukkan nilai y: ";
@@ -21,4 +22,5 @@ int main() {
     cout << "x = " << x << ", y = " << y << endl;
     return 0;
 }
+
 
