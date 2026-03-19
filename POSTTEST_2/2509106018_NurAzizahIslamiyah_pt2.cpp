@@ -7,3 +7,21 @@
 // Merge sort urutkan berdasarkan nama kereta (A-Z)
 // Selection Sort urutkan berdasarkan harga tiket (termurah)
 // Setiap searching dan pointer menerapkan swap dengan pointer
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Kereta {
+    int noKereta;
+    string namaKereta;
+    string asal;
+    string tujuan;
+    int harga;
+};
+
+void swap(Kereta* a, Kereta* b) {
+    Kereta temp = *a;
+    *a = *b;
+    *b = temp;
+}
