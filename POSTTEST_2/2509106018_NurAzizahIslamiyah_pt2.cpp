@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <string>
+#include <iomanip>
 using namespace std;
 
 struct Kereta {
@@ -27,10 +28,20 @@ Kereta daftar_kereta[100] = {
     {104, "Gordon Big", "Bandung", "Solo", 480000},
     {106, "Percy GreenLoco", "Surabaya", "Bogor", 250000}
 };
-int jumlah_kereta = 5;
+int jml_kereta = 5;
 
 void swap(Kereta* a, Kereta* b) {
     Kereta temp = *a;
     *a = *b;
     *b = temp;
+}
+
+void header() {
+    cout << "================================================================================\n";
+    cout << "| " << setw(5) << left << "ID" 
+        << "| " << setw(18) << left << "Nama Kereta" 
+        << "| " << setw(15) << left << "Asal" 
+        << "| " << setw(15) << left << "Tujuan" 
+        << "| " << setw(15) << left << "Harga" << " |\n";
+    cout << "================================================================================\n";
 }
