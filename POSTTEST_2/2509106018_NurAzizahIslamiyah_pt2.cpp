@@ -53,3 +53,20 @@ void jadwal(Kereta* arr, int n, string judul) {
         cout << "================================================================================\n";
     }
 }
+
+void jump_search(Kereta* arr, int n) {
+    int pil_searchno;
+    do {
+        system("cls");
+        jadwal(arr, n, "PENCARIAN NOMOR KERETA");
+        bool terurut = true;
+        for (int i = 0; i < n - 1; i++) {
+            if (arr[i].no_kereta > arr[i+1].no_kereta) { terurut = false; break; }
+        }
+        cout << endl;
+        cout << "Status Nomor Kereta: " << (terurut ? "[TERURUT]" : "[ACAK]") << endl;
+        cout << "1. Cari Nomor Kereta" << endl;
+        cout << "2. Urutkan Nomor Kereta " << endl;
+        cout << "0. Kembali" << endl;
+        cout << "Pilihan: ";
+        cin >> pil_searchno;
