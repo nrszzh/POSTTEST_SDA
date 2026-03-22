@@ -54,6 +54,17 @@ void jadwal(Kereta* arr, int n, string judul) {
     }
 }
 
+void sort_no(Kereta* arr, int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int idx = i;
+        for (int j = i + 1; j < n; j++) {
+            if ((arr + j)->no_kereta < (arr + idx)->no_kereta)
+            idx = j;
+        }
+        swap((arr + idx), (arr + i));
+    }
+}
+
 void jump_search(Kereta* arr, int n) {
     int pil_searchno;
     do {
