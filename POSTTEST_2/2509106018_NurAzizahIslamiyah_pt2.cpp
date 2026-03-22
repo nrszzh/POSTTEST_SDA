@@ -81,3 +81,23 @@ void jump_search(Kereta* arr, int n) {
         cout << "0. Kembali" << endl;
         cout << "Pilihan: ";
         cin >> pil_searchno;
+
+        if (pil_searchno == 1) {
+            if (!terurut) {
+                cout << endl;
+                cout << "Pencarian Gagal, Data belum terurut.";
+                getch();
+            } else {
+                int target;
+                cout << "Nomor Kereta yang dicari: ";
+                cin >> target;
+
+                int step = sqrt(n);
+                int prev = 0;
+                cout << "--- PROSES ITERASI ---" << endl;
+                while (arr[min(step, n) - 1].no_kereta < target) {
+                    cout << "[ JUMP ] Indeks " << min(step, n)-1 << " : " << arr[min(step, n)-1].no_kereta << " -> JUMP!" << endl;
+                    prev = step;
+                    step += sqrt(n);
+                    if (prev >= n) break;
+                }
