@@ -32,6 +32,24 @@ void header() {
         << "| " << setw(18) << left << "Nama Kereta" 
         << "| " << setw(15) << left << "Asal" 
         << "| " << setw(15) << left << "Tujuan" 
-        << "| " << setw(15) << left << "Harga" << " |\n";
+        << "| " << setw(15) << left << "Harga" << " |" << endl;
     cout << "================================================================================\n";
+}
+
+void jadwal(Kereta* arr, int n, string judul) {
+    system("cls");
+    cout << ">>> " << judul << " <<<" << endl;
+    if (n == 0) {
+        cout << "Data masih kosong.\n";
+    } else {
+        header();
+        for (int i = 0; i < n; i++) {
+            cout << "| " << setw(5) << left << (arr + i)->no_kereta 
+                << "| " << setw(18) << left << (arr + i)->nama_kereta 
+                << "| " << setw(15) << left << (arr + i)->asal 
+                << "| " << setw(15) << left << (arr + i)->tujuan 
+                << "| Rp" << setw(13) << left << (arr + i)->harga << " |" << endl;
+        }
+        cout << "================================================================================\n";
+    }
 }
