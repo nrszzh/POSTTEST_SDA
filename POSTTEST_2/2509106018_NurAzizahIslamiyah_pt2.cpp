@@ -134,3 +134,18 @@ void jump_search(kereta* arr, int n) {
         }
     } while (pil_searchno != 0);
 }
+
+void merge(kereta arr[], int kiri, int mid, int kanan) {
+    int n1 = mid - kiri + 1;
+    int n2 = kanan - mid;
+    kereta left[n1], right[n2];
+    for (int i = 0; i < n1; i++) left[i] = arr[kiri + i];
+    for (int j = 0; j < n2; j++) right[j] = arr[mid + 1 + j];
+    int i = 0, j = 0, k = kiri;
+    while (i < n1 && j < n2) {
+        if (left[i].nama_kereta <= right[j].nama_kereta) arr[k++] = left[i++];
+        else arr[k++] = right[j++];
+    }
+    while (i < n1) arr[k++] = left[i++];
+    while (j < n2) arr[k++] = right[j++];
+}
