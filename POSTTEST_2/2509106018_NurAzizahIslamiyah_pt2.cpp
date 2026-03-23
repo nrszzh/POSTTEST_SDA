@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <cmath>
+#include <conio.h>
 using namespace std;
 
 struct kereta {
@@ -103,4 +105,32 @@ void jump_search(kereta* arr, int n) {
                     break;
                 }
 
-                
+                bool found = false;
+                for (int i = iterasi; i < min(step, n); i++) {
+                    cout << "[Linear] Indeks " << i << " : " << arr[i].no_kereta;
+                    if (arr[i].no_kereta == target) {
+                        cout << "Kereta Ditemukan" << endl;
+                        swap((arr + i), (arr + 0));
+                        found = true;
+                        break;
+                    }
+                    cout << "Salah" << endl;
+                }
+
+                if (found) {
+                    cout << endl;
+                    cout << "Data ditemukan dan di-swap ke urutan pertama.";
+                } else {
+                    cout << endl;
+                    cout << "Data tidak ditemukan.";
+                }
+                getch();
+            }
+        } else if (pil_searchno == 2) {
+            sort_no(arr, n);
+            cout << endl;
+            cout << "Nomor kereta Berhasil Diurutkan";
+            getch();
+        }
+    } while (pil_searchno != 0);
+}
