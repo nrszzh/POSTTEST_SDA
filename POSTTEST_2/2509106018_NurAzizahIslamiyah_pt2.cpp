@@ -158,3 +158,15 @@ void merge_nama(kereta* arr, int kiri, int kanan) {
         merge(arr, kiri, mid, kanan);
     }
 }
+
+
+void selectionsort_harga(kereta* arr, int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int idx = i;
+        for (int j = i + 1; j < n; j++) {
+            if ((arr + j)->harga < (arr + idx)->harga)
+            idx = j;
+        }
+        swap((arr + idx), (arr + i));
+    }
+}
