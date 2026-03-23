@@ -149,3 +149,12 @@ void merge(kereta arr[], int kiri, int mid, int kanan) {
     while (i < n1) arr[k++] = left[i++];
     while (j < n2) arr[k++] = right[j++];
 }
+
+void merge_nama(kereta* arr, int kiri, int kanan) {
+    if (kiri < kanan) {
+        int mid = kiri + (kanan - kiri) / 2;
+        merge_nama(arr, kiri, mid);
+        merge_nama(arr, mid + 1, kanan);
+        merge(arr, kiri, mid, kanan);
+    }
+}
