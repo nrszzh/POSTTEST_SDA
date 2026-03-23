@@ -3,7 +3,7 @@
 #include <iomanip>
 using namespace std;
 
-struct Kereta {
+struct kereta {
     int no_kereta;
     string nama_kereta;
     string asal;
@@ -11,7 +11,7 @@ struct Kereta {
     int harga;
 };
 
-Kereta daftar_kereta[100] = {
+kereta daftar_kereta[100] = {
     {101, "Thomas Rail", "Jakarta", "Surabaya", 500000},
     {112, "Emily Emerald", "Malang", "Solo", 600000},
     {110, "Titipo Little", "Yogyakarta", "Jakarta", 450000},
@@ -20,23 +20,17 @@ Kereta daftar_kereta[100] = {
 };
 int jml_kereta = 5;
 
-void swap(Kereta* a, Kereta* b) {
-    Kereta temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
 void header() {
-    cout << "================================================================================\n";
+    cout << "================================================================================" << endl;
     cout << "| " << setw(5) << left << "ID" 
-        << "| " << setw(18) << left << "Nama Kereta" 
+        << "| " << setw(18) << left << "Nama kereta" 
         << "| " << setw(15) << left << "Asal" 
         << "| " << setw(15) << left << "Tujuan" 
         << "| " << setw(15) << left << "Harga" << " |" << endl;
-    cout << "================================================================================\n";
+    cout << "================================================================================" << endl;
 }
 
-void jadwal(Kereta* arr, int n, string judul) {
+void jadwal(kereta* arr, int n, string judul) {
     system("cls");
     cout << ">>> " << judul << " <<<" << endl;
     if (n == 0) {
@@ -54,7 +48,13 @@ void jadwal(Kereta* arr, int n, string judul) {
     }
 }
 
-void sort_no(Kereta* arr, int n) {
+void swap(kereta* a, kereta* b) {
+    kereta temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void sort_no(kereta* arr, int n) {
     for (int i = 0; i < n - 1; i++) {
         int idx = i;
         for (int j = i + 1; j < n; j++) {
@@ -65,7 +65,7 @@ void sort_no(Kereta* arr, int n) {
     }
 }
 
-void jump_search(Kereta* arr, int n) {
+void jump_search(kereta* arr, int n) {
     int pil_searchno;
     do {
         system("cls");
@@ -75,9 +75,9 @@ void jump_search(Kereta* arr, int n) {
             if (arr[i].no_kereta > arr[i+1].no_kereta) { terurut = false; break; }
         }
         cout << endl;
-        cout << "Status Nomor Kereta: " << (terurut ? "[TERURUT]" : "[ACAK]") << endl;
-        cout << "1. Cari Nomor Kereta" << endl;
-        cout << "2. Urutkan Nomor Kereta " << endl;
+        cout << "Status Nomor kereta: " << (terurut ? "[TERURUT]" : "[ACAK]") << endl;
+        cout << "1. Cari Nomor kereta" << endl;
+        cout << "2. Urutkan Nomor kereta " << endl;
         cout << "0. Kembali" << endl;
         cout << "Pilihan: ";
         cin >> pil_searchno;
@@ -89,15 +89,18 @@ void jump_search(Kereta* arr, int n) {
                 getch();
             } else {
                 int target;
-                cout << "Nomor Kereta yang dicari: ";
+                cout << "Nomor kereta yang dicari: ";
                 cin >> target;
 
                 int step = sqrt(n);
-                int prev = 0;
+                int iterasi = 0;
                 cout << "--- PROSES ITERASI ---" << endl;
                 while (arr[min(step, n) - 1].no_kereta < target) {
                     cout << "[ JUMP ] Indeks " << min(step, n)-1 << " : " << arr[min(step, n)-1].no_kereta << " -> JUMP!" << endl;
-                    prev = step;
+                    iterasi = step;
                     step += sqrt(n);
-                    if (prev >= n) break;
+                    if (iterasi >= n)
+                    break;
                 }
+
+                
