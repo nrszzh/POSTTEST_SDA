@@ -175,3 +175,36 @@ void selectionsort_harga(kereta* arr, int n) {
         swap((arr + idx), (arr + i));
     }
 }
+
+void linear_rute(kereta* arr, int n) {
+    system("cls");
+    if (n == 0) {
+        cout << "Data kosong";
+        getch();
+        return;
+    }
+    jadwal(arr, n, "PENCARIAN RUTE");
+    string asal, tujuan;
+    cin.ignore();
+    cout << endl;
+    cout << "Asal     : ";
+    getline(cin, asal);
+    cout << "Tujuan   : ";
+    getline(cin, tujuan);
+    cout << endl;
+    cout << "--- PROSES ITERASI ---" << endl;
+    bool ketemu = false;
+    for (int i = 0; i < n; i++) {
+        cout << "Indeks " << i << ": ";
+        if ((arr + i)->asal == asal && (arr + i)->tujuan == tujuan) {
+            cout << "Rute ditemukan" << endl;
+            swap((arr + i), (arr + 0));
+            ketemu = true;
+            break;
+        }
+        cout << "Belum ketemu" << endl;
+    }
+    cout << endl;
+    cout << "--- Pencarian Selesai ---";
+    getch();
+}
