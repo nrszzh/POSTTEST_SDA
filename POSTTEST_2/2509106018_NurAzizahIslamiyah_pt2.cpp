@@ -46,7 +46,7 @@ void jadwal(kereta* arr, int n, string judul) {
                 << "| " << setw(15) << left << (arr + i)->tujuan 
                 << "| Rp" << setw(13) << left << (arr + i)->harga << " |" << endl;
         }
-        cout << "================================================================================\n";
+        cout << "================================================================================" << endl;
     }
 }
 
@@ -206,3 +206,20 @@ void selectionsort_harga(kereta* arr, int n) {
     }
 }
 
+int main() {
+    int pil;
+    do {
+        system("cls");
+        cout << "==========================================================" << endl;
+        cout << "|             SISTEM MANAJEMEN KERETA API                |" << endl;
+        cout << "==========================================================" << endl;
+        cout << "| 1. | Lihat Jadwal Kereta                               |" << endl;
+        cout << "| 2. | Tambah Jadwal Kereta                              |" << endl;
+        cout << "| 3. | Cari Rute                                         |" << endl;
+        cout << "| 4. | Cari No kereta                                    |" << endl;
+        cout << "| 5. | Urutkan Nama kereta A-Z                           |" << endl;
+        cout << "| 6. | Urutkan Harga Termurah                            |" << endl;
+        cout << "| 0. | Keluar                                            |" << endl;
+        cout << "==========================================================" << endl;
+        cout << "Pilihan: ";
+        cin >> pil;
