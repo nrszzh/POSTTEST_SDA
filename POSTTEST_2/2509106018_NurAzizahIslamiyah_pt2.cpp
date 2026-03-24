@@ -14,7 +14,7 @@ struct kereta {
 };
 
 kereta daftar_kereta[100] = {
-    {101, "Thomas Rail", "Jakarta", "Surabaya", 500000},
+    {102, "Thomas Rail", "Jakarta", "Surabaya", 500000},
     {112, "Emily Emerald", "Malang", "Solo", 600000},
     {110, "Titipo Little", "Yogyakarta", "Jakarta", 450000},
     {104, "Gordon Big", "Bandung", "Solo", 480000},
@@ -36,7 +36,7 @@ void jadwal(kereta* arr, int n, string judul) {
     system("cls");
     cout << ">>> " << judul << " <<<" << endl;
     if (n == 0) {
-        cout << "Data masih kosong.\n";
+        cout << "Data masih kosong" << endl;
     } else {
         header();
         for (int i = 0; i < n; i++) {
@@ -56,15 +56,37 @@ void swap(kereta* a, kereta* b) {
     *b = temp;
 }
 
-void sort_no(kereta* arr, int n) {
-    for (int i = 0; i < n - 1; i++) {
-        int idx = i;
-        for (int j = i + 1; j < n; j++) {
-            if ((arr + j)->no_kereta < (arr + idx)->no_kereta)
-            idx = j;
-        }
-        swap((arr + idx), (arr + i));
+void linear_rute(kereta* arr, int n) {
+    system("cls");
+    if (n == 0) {
+        cout << "Data kosong";
+        getch();
+        return;
     }
+    jadwal(arr, n, "PENCARIAN RUTE");
+    string asal, tujuan;
+    cin.ignore();
+    cout << endl;
+    cout << "Asal     : ";
+    getline(cin, asal);
+    cout << "Tujuan   : ";
+    getline(cin, tujuan);
+    cout << endl;
+    cout << "---- PROSES ITERASI ----" << endl;
+    bool ketemu = false;
+    for (int i = 0; i < n; i++) {
+        cout << "Indeks " << i << ": ";
+        if ((arr + i)->asal == asal && (arr + i)->tujuan == tujuan) {
+            cout << "Rute ditemukan" << endl;
+            swap((arr + i), (arr + 0));
+            ketemu = true;
+            break;
+        }
+        cout << "Belum ketemu" << endl;
+    }
+    cout << "Rute tidak ditemukan" << endl;
+    cout << "--- Pencarian Selesai ---";
+    getch();
 }
 
 void jump_search(kereta* arr, int n) {
@@ -119,7 +141,7 @@ void jump_search(kereta* arr, int n) {
                         ketemu = true;
                         break;
                     }
-                    cout << " Belum ketemu";
+                    cout << " Belum ketemu" << endl;
                     prev++;
                 }
 
@@ -133,8 +155,16 @@ void jump_search(kereta* arr, int n) {
             }
 
         } else if (pil_searchno == 2) {
-            sort_no(arr, n);
-            cout << "Nomor kereta Berhasil Diurutkan!";
+            for (int i = 0; i < n - 1; i++) {
+                int idx_min = i;
+                for (int j = i + 1; j < n; j++) {
+                    if ((arr + j)->no_kereta < (arr + idx_min)->no_kereta) {
+                        idx_min = j;
+                    }
+                }
+                swap((arr + idx_min), (arr + i));
+            }
+            cout << "Nomor kereta berhasil diurutkan";
             getch();
         }
     } while (pil_searchno != 0);
@@ -176,35 +206,3 @@ void selectionsort_harga(kereta* arr, int n) {
     }
 }
 
-void linear_rute(kereta* arr, int n) {
-    system("cls");
-    if (n == 0) {
-        cout << "Data kosong";
-        getch();
-        return;
-    }
-    jadwal(arr, n, "PENCARIAN RUTE");
-    string asal, tujuan;
-    cin.ignore();
-    cout << endl;
-    cout << "Asal     : ";
-    getline(cin, asal);
-    cout << "Tujuan   : ";
-    getline(cin, tujuan);
-    cout << endl;
-    cout << "--- PROSES ITERASI ---" << endl;
-    bool ketemu = false;
-    for (int i = 0; i < n; i++) {
-        cout << "Indeks " << i << ": ";
-        if ((arr + i)->asal == asal && (arr + i)->tujuan == tujuan) {
-            cout << "Rute ditemukan" << endl;
-            swap((arr + i), (arr + 0));
-            ketemu = true;
-            break;
-        }
-        cout << "Belum ketemu" << endl;
-    }
-    cout << endl;
-    cout << "--- Pencarian Selesai ---";
-    getch();
-}
