@@ -223,3 +223,10 @@ int main() {
         cout << "==========================================================" << endl;
         cout << "Pilihan: ";
         cin >> pil;
+
+        switch (pil) {
+            case 1: 
+            jadwal(daftar_kereta, jml_kereta, "DAFTAR JADWAL");
+            getch();
+            break;
+            
