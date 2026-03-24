@@ -74,19 +74,20 @@ void jump_search(kereta* arr, int n) {
         jadwal(arr, n, "PENCARIAN NOMOR KERETA");
         bool terurut = true;
         for (int i = 0; i < n - 1; i++) {
-            if (arr[i].no_kereta > arr[i+1].no_kereta) { terurut = false; break; }
+            if (arr[i].no_kereta > arr[i+1].no_kereta) {
+                terurut = false; break;
+            }
         }
-        cout << endl;
+
         cout << "Status Nomor kereta: " << (terurut ? "[TERURUT]" : "[ACAK]") << endl;
         cout << "1. Cari Nomor kereta" << endl;
-        cout << "2. Urutkan Nomor kereta " << endl;
+        cout << "2. Urutkan Nomor kereta" << endl;
         cout << "0. Kembali" << endl;
         cout << "Pilihan: ";
         cin >> pil_searchno;
 
         if (pil_searchno == 1) {
             if (!terurut) {
-                cout << endl;
                 cout << "Pencarian Gagal, Data belum terurut.";
                 getch();
             } else {
@@ -94,42 +95,46 @@ void jump_search(kereta* arr, int n) {
                 cout << "Nomor kereta yang dicari: ";
                 cin >> target;
 
-                int step = sqrt(n);
-                int iterasi = 0;
-                cout << "--- PROSES ITERASI ---" << endl;
+                int step = (int)sqrt((double)n); 
+                int prev = 0; 
+                cout << "--- FASE LOMPAT ---" << endl;
                 while (arr[min(step, n) - 1].no_kereta < target) {
-                    cout << "[ JUMP ] Indeks " << min(step, n)-1 << " : " << arr[min(step, n)-1].no_kereta << " -> JUMP!" << endl;
-                    iterasi = step;
-                    step += sqrt(n);
-                    if (iterasi >= n)
-                    break;
+                    cout << "Indeks : " << min(step, n)-1 << " , No.Kereta : " << arr[min(step, n)-1].no_kereta << " -> LOMPAT" << endl;
+                    prev = step;
+                    step += (int)sqrt((double)n);
+                    if (prev >= n)
+                    break; 
                 }
 
-                bool found = false;
-                for (int i = iterasi; i < min(step, n); i++) {
-                    cout << "[Linear] Indeks " << i << " : " << arr[i].no_kereta;
-                    if (arr[i].no_kereta == target) {
-                        cout << "Kereta Ditemukan" << endl;
-                        swap((arr + i), (arr + 0));
-                        found = true;
+                cout << "--- FASE LINEAR ---";
+                int batas = step;
+                if (batas > n) batas = n; 
+                bool ketemu = false;
+                int idx_ketemu = -1;
+                while (prev < batas) {
+                    cout << "Indeks : " << prev << " , No.Kereta : " << arr[prev].no_kereta << endl;
+                    if (arr[prev].no_kereta == target) {
+                        cout << " Kereta ditemukan" << endl;
+                        idx_ketemu = prev;
+                        ketemu = true;
                         break;
                     }
-                    cout << "Salah" << endl;
+                    cout << " Belum ketemu";
+                    prev++;
                 }
 
-                if (found) {
-                    cout << endl;
-                    cout << "Data ditemukan dan di-swap ke urutan pertama.";
+                if (ketemu) {
+                    swap((arr + idx_ketemu), (arr + 0));
+                    cout << "Kereta ditemukan pada indeks ke - " << idx_ketemu << "dan di swap ke urutan pertama";
                 } else {
-                    cout << endl;
-                    cout << "Data tidak ditemukan.";
+                    cout << "Nomor kereta tidak tersedia";
                 }
                 getch();
             }
+
         } else if (pil_searchno == 2) {
             sort_no(arr, n);
-            cout << endl;
-            cout << "Nomor kereta Berhasil Diurutkan";
+            cout << "Nomor kereta Berhasil Diurutkan!";
             getch();
         }
     } while (pil_searchno != 0);
