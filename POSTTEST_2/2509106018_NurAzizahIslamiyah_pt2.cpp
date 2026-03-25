@@ -247,3 +247,8 @@ int main() {
                 jml_kereta++;
                 break;
             }
+
+            case 3: 
+            linear_rute(daftar_kereta, jml_kereta);
+            break;
+
