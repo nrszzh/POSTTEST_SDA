@@ -229,4 +229,21 @@ int main() {
             jadwal(daftar_kereta, jml_kereta, "DAFTAR JADWAL");
             getch();
             break;
-            
+
+            case 2: {
+                kereta* p = daftar_kereta + jml_kereta;
+                system("cls");
+                cout << "No kereta   : ";
+                cin >> p->no_kereta;
+                cin.ignore();
+                cout << "Nama kereta : ";
+                getline(cin, p->nama_kereta);
+                cout << "Asal        : ";
+                getline(cin, p->asal);
+                cout << "Tujuan      : ";
+                getline(cin, p->tujuan);
+                cout << "Harga       : ";
+                cin >> p->harga;
+                jml_kereta++;
+                break;
+            }
