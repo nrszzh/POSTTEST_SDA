@@ -257,4 +257,8 @@ int main() {
             break;
 
 
-            
+            case 5: 
+                merge_nama(daftar_kereta, 0, jml_kereta - 1); 
+                jadwal(daftar_kereta, jml_kereta, "HASIL MERGE SORT NAMA");
+                getch(); 
+                break;
