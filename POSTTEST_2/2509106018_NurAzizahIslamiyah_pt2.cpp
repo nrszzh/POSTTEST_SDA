@@ -84,13 +84,15 @@ void linear_rute(kereta* arr, int n) {
         }
         cout << "Belum ketemu" << endl;
     }
-    cout << "Rute tidak ditemukan" << endl;
-    cout << "--- Pencarian Selesai ---";
-    getch();
-}
+    if (!ketemu) {
+        cout << "Rute tidak ditemukan" << endl;
+        }
+        cout << "--- Pencarian Selesai ---";
+        getch();
+    }
 
 void jump_search(kereta* arr, int n) {
-    int pil_searchno;
+    int pil_searchno; 
     do {
         system("cls");
         jadwal(arr, n, "PENCARIAN NOMOR KERETA");
@@ -128,7 +130,7 @@ void jump_search(kereta* arr, int n) {
                     break; 
                 }
 
-                cout << "--- FASE LINEAR ---";
+                cout << "--- FASE LINEAR ---" << endl;
                 int batas = step;
                 if (batas > n) batas = n; 
                 bool ketemu = false;
@@ -147,7 +149,7 @@ void jump_search(kereta* arr, int n) {
 
                 if (ketemu) {
                     swap((arr + idx_ketemu), (arr + 0));
-                    cout << "Kereta ditemukan pada indeks ke - " << idx_ketemu << "dan di swap ke urutan pertama";
+                    cout << "Kereta ditemukan pada indeks ke - " << idx_ketemu << " dan di swap ke urutan pertama";
                 } else {
                     cout << "Nomor kereta tidak tersedia";
                 }
@@ -245,6 +247,10 @@ int main() {
                 cout << "Harga       : ";
                 cin >> p->harga;
                 jml_kereta++;
+
+                cout << endl;
+                cout << "-- Jadwal ditambahkan --" << endl;
+                getch();
                 break;
             }
 
@@ -262,3 +268,14 @@ int main() {
                 jadwal(daftar_kereta, jml_kereta, "HASIL MERGE SORT NAMA");
                 getch(); 
                 break;
+
+            case 6: 
+            selectionsort_harga(daftar_kereta, jml_kereta); 
+            jadwal(daftar_kereta, jml_kereta, "HASIL SORT HARGA");
+            getch(); 
+            break;
+        }
+
+    } while (pil != 0);
+    return 0;
+}
