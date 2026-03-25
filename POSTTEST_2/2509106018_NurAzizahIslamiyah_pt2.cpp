@@ -252,3 +252,9 @@ int main() {
             linear_rute(daftar_kereta, jml_kereta);
             break;
 
+            case 4: 
+            jump_search(daftar_kereta, jml_kereta);
+            break;
+
+
+            
