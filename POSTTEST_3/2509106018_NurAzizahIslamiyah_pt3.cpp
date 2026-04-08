@@ -48,11 +48,12 @@ void jadwal(kereta* arr, int n, string judul) {
     } else {
         header();
         for (int i = 0; i < n; i++) {
-            cout << "| " << setw(5) << left << (arr + i)->no_kereta 
-                << "| " << setw(18) << left << (arr + i)->nama_kereta 
-                << "| " << setw(15) << left << (arr + i)->asal 
-                << "| " << setw(15) << left << (arr + i)->tujuan 
-                << "| Rp" << setw(13) << left << (arr + i)->harga << " |" << endl;
+            kereta *p = (arr + 1);
+            cout << "| " << setw(5) << left << p->no_kereta 
+                << "| " << setw(18) << left << p->nama_kereta 
+                << "| " << setw(15) << left << p->asal 
+                << "| " << setw(15) << left << p->tujuan 
+                << "| Rp" << setw(13) << left << p->harga << " |" << endl;
         }
         cout << "================================================================================" << endl;
     }
@@ -164,12 +165,13 @@ void merge_nama(kereta* arr, int kiri, int kanan) {
 
 void selectionsort_harga(kereta* arr, int n) {
     for (int i = 0; i < n - 1; i++) {
-        int idx = i;
+        int min_idx = i;
         for (int j = i + 1; j < n; j++) {
-            if ((arr + j)->harga < (arr + idx)->harga)
-            idx = j;
+            if ((arr + j)->harga < (arr + min_idx)->harga)
+            min_idx = j;
         }
-        swap((arr + idx), (arr + i));
+        if (min_idx != i)
+        swap((arr + min_idx), (arr + i));
     }
 }
 
