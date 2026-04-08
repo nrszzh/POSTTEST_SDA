@@ -22,6 +22,14 @@ kereta daftar_kereta[100] = {
 };
 int jml_kereta = 5;
 
+void swapPointer(kereta* a, kereta* b) {
+    kereta temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+const int MAX_KAPASITAS = 100;
+
 void header() {
     cout << "================================================================================" << endl;
     cout << "| " << setw(5) << left << "ID" 
@@ -91,85 +99,43 @@ void linear_rute(kereta* arr, int n) {
         getch();
     }
 
-void jump_search(kereta* arr, int n) {
-    int pil_searchno; 
-    do {
-        system("cls");
-        jadwal(arr, n, "PENCARIAN NOMOR KERETA");
-        bool terurut = true;
-        for (int i = 0; i < n - 1; i++) {
-            if (arr[i].no_kereta > arr[i+1].no_kereta) {
-                terurut = false; break;
-            }
+void jump_search(kereta* &arrRef, int n) { 
+    system("cls");
+    //autosort
+    for (int i = 0; i < n - 1; i++) {
+        int m = i;
+        for (int j = i + 1; j < n; j++) if (arrRef[j].no_kereta < arrRef[m].no_kereta) m = j;
+        swapPointer(&arrRef[m], &arrRef[i]);
+    }
+    
+    int target;
+    cout << "Masukkan Nomor Kereta yang dicari: ";
+    if (!(cin >> target)) {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        return;
+    }
+
+    int step = sqrt(n);
+    int prev = 0;
+    while (arrRef[min(step, n) - 1].no_kereta < target) {
+        prev = step;
+        step += sqrt(n);
+        if (prev >= n)
+        break;
+    }
+
+    bool ketemu = false;
+    for (int i = prev; i < min(step, n); i++) {
+        if (arrRef[i].no_kereta == target) {
+            cout << "\nKereta Ditemukan: " << arrRef[i].nama_kereta << " [" << arrRef[i].no_kereta << "]";
+            ketemu = true;
+            break;
         }
-
-        cout << "Status Nomor kereta: " << (terurut ? "[TERURUT]" : "[ACAK]") << endl;
-        cout << "1. Cari Nomor kereta" << endl;
-        cout << "2. Urutkan Nomor kereta" << endl;
-        cout << "0. Kembali" << endl;
-        cout << "Pilihan: ";
-        cin >> pil_searchno;
-
-        if (pil_searchno == 1) {
-            if (!terurut) {
-                cout << "Pencarian Gagal, Data belum terurut.";
-                getch();
-            } else {
-                int target;
-                cout << "Nomor kereta yang dicari: ";
-                cin >> target;
-
-                int step = (int)sqrt((double)n); 
-                int prev = 0; 
-                cout << "--- FASE LOMPAT ---" << endl;
-                while (arr[min(step, n) - 1].no_kereta < target) {
-                    cout << "Indeks : " << min(step, n)-1 << " , No.Kereta : " << arr[min(step, n)-1].no_kereta << " -> LOMPAT" << endl;
-                    prev = step;
-                    step += (int)sqrt((double)n);
-                    if (prev >= n)
-                    break; 
-                }
-
-                cout << "--- FASE LINEAR ---" << endl;
-                int batas = step;
-                if (batas > n) batas = n; 
-                bool ketemu = false;
-                int idx_ketemu = -1;
-                while (prev < batas) {
-                    cout << "Indeks : " << prev << " , No.Kereta : " << arr[prev].no_kereta << endl;
-                    if (arr[prev].no_kereta == target) {
-                        cout << " Kereta ditemukan" << endl;
-                        idx_ketemu = prev;
-                        ketemu = true;
-                        break;
-                    }
-                    cout << " Belum ketemu" << endl;
-                    prev++;
-                }
-
-                if (ketemu) {
-                    swap((arr + idx_ketemu), (arr + 0));
-                    cout << "Kereta ditemukan pada indeks ke - " << idx_ketemu << " dan di swap ke urutan pertama";
-                } else {
-                    cout << "Nomor kereta tidak tersedia";
-                }
-                getch();
-            }
-
-        } else if (pil_searchno == 2) {
-            for (int i = 0; i < n - 1; i++) {
-                int idx_min = i;
-                for (int j = i + 1; j < n; j++) {
-                    if ((arr + j)->no_kereta < (arr + idx_min)->no_kereta) {
-                        idx_min = j;
-                    }
-                }
-                swap((arr + idx_min), (arr + i));
-            }
-            cout << "Nomor kereta berhasil diurutkan";
-            getch();
-        }
-    } while (pil_searchno != 0);
+    }
+    if (!ketemu)
+    cout << "Data tidak ditemukan.";
+    getch();
 }
 
 void merge(kereta arr[], int kiri, int mid, int kanan) {
@@ -209,7 +175,16 @@ void selectionsort_harga(kereta* arr, int n) {
 }
 
 int main() {
+    kereta daftar_kereta[MAX_KAPASITAS] = {
+        {102, "Thomas Rail", "Jakarta", "Surabaya", 500000},
+        {112, "Emily Emerald", "Malang", "Solo", 600000},
+        {110, "Titipo Little", "Yogyakarta", "Jakarta", 450000},
+        {104, "Gordon Big", "Bandung", "Solo", 480000},
+        {106, "Percy GreenLoco", "Surabaya", "Bogor", 250000}
+    };
+    int jml = 5;
     int pil;
+    kereta* ptrData = daftar_kereta; 
     do {
         system("cls");
         cout << "==========================================================" << endl;
@@ -259,7 +234,7 @@ int main() {
             break;
 
             case 4: 
-            jump_search(daftar_kereta, jml_kereta);
+            jump_search(ptrData, jml_kereta);
             break;
 
 
