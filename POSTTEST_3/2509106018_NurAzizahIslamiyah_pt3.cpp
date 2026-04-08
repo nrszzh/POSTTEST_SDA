@@ -86,7 +86,6 @@ void linear_rute(kereta* arr, int n) {
         cout << "Indeks " << i << ": ";
         if ((arr + i)->asal == asal && (arr + i)->tujuan == tujuan) {
             cout << "Rute ditemukan" << endl;
-            swap((arr + i), (arr + 0));
             ketemu = true;
             break;
         }
