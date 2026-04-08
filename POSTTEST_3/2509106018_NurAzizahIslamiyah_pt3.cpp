@@ -279,3 +279,15 @@ int main() {
     } while (pil != 0);
     return 0;
 }
+
+//perbaikan
+// 1. Jump search tidak auto sorting dapat menyebabkan data salah (-5)
+// 2. Swap ke index-0 saat search merusak data (-5)
+// 3. Tidak ada validasi kapasitas array (-2)
+// 4. Tidak ada validasi input (-2)
+
+// Saran:
+// 1. Linear search nya jangan case sensitive soalnya rawan gagal
+// 2. Global variable terlalu banyak
+// 3. Selection sort tidak efisien
+// 4. Merge sort pakai array lokal yang boros memori
