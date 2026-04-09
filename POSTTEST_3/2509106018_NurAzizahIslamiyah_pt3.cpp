@@ -13,14 +13,7 @@ struct kereta {
     int harga;
 };
 
-kereta daftar_kereta[100] = {
-    {102, "Thomas Rail", "Jakarta", "Surabaya", 500000},
-    {112, "Emily Emerald", "Malang", "Solo", 600000},
-    {110, "Titipo Little", "Yogyakarta", "Jakarta", 450000},
-    {104, "Gordon Big", "Bandung", "Solo", 480000},
-    {106, "Percy GreenLoco", "Surabaya", "Bogor", 250000}
-};
-int jml_kereta = 5;
+const int MAX_KAPASITAS = 100;
 
 void swapPointer(kereta* a, kereta* b) {
     kereta temp = *a;
@@ -28,7 +21,12 @@ void swapPointer(kereta* a, kereta* b) {
     *b = temp;
 }
 
-const int MAX_KAPASITAS = 100;
+bool case_sensitif(string a, string b) {
+    if (a.length() != b.length()) return false;
+    for (int i = 0; i < (int)a.length(); i++) {
+        if (tolower(a[i]) != tolower(b[i])) return false;
+    } return true;
+}
 
 void header() {
     cout << "================================================================================" << endl;
@@ -81,6 +79,7 @@ void linear_rute(kereta* arr, int n) {
     cout << "Tujuan   : ";
     getline(cin, tujuan);
     cout << endl;
+
     cout << "---- PROSES ITERASI ----" << endl;
     bool ketemu = false;
     for (int i = 0; i < n; i++) {
@@ -183,7 +182,7 @@ int main() {
         {104, "Gordon Big", "Bandung", "Solo", 480000},
         {106, "Percy GreenLoco", "Surabaya", "Bogor", 250000}
     };
-    int jml = 5;
+    int jml_kereta = 5;
     int pil;
     kereta* ptrData = daftar_kereta; 
     do {
@@ -208,7 +207,8 @@ int main() {
             getch();
             break;
 
-            case 2: {
+            case 2: 
+            if (jml_kereta < MAX_KAPASITAS) {
                 kereta* p = daftar_kereta + jml_kereta;
                 system("cls");
                 cout << "No kereta   : ";
@@ -256,11 +256,9 @@ int main() {
     return 0;
 }
 
-
 // 4. Tidak ada validasi input (-2)
 
 // Saran:
 // 1. Linear search nya jangan case sensitive soalnya rawan gagal
-// 2. Global variable terlalu banyak
 // 3. Selection sort tidak efisien
 // 4. Merge sort pakai array lokal yang boros memori
