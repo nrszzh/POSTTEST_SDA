@@ -255,10 +255,3 @@ int main() {
     } while (pil != 0);
     return 0;
 }
-
-// 4. Tidak ada validasi input (-2)
-
-// Saran:
-// 1. Linear search nya jangan case sensitive soalnya rawan gagal
-// 3. Selection sort tidak efisien
-// 4. Merge sort pakai array lokal yang boros memori
