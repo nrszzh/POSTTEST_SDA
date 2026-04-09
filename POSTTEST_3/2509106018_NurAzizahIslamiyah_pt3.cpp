@@ -13,7 +13,17 @@ struct kereta {
     int harga;
 };
 
+struct penumpang {
+    string nama;
+    string nik;
+}
+
 const int MAX_KAPASITAS = 100;
+const int MAX_QUEUE = 10;
+
+penumpang antrean[MAX_QUEUE];
+int front = -1;
+int rear = -1;
 
 void swapPointer(kereta* a, kereta* b) {
     kereta temp = *a;
@@ -61,6 +71,36 @@ void swap(kereta* a, kereta* b) {
     kereta temp = *a;
     *a = *b;
     *b = temp;
+}
+
+void enqueue() {
+    if (rear == MAX_QUEUE - 1) {
+        cout << "Antrean Penuh." << endl;
+    } else {
+        if (front == -1) front = 0;
+        rear++;
+        cin.ignore();
+        cout << "Nama Penumpang : "; 
+        getline(cin, antrean[rear].nama);
+        cout << "NIK            : "; 
+        getline(cin, antrean[rear].nik);
+        cout << "Penumpang berhasil masuk antrean." << endl;
+    }
+}
+
+void tampilQueue() {
+    system("cls");
+    cout << ">>> ANTREAN BELI TIKET <<<" << endl;
+    if (front == -1 || front > rear) {
+        cout << "Antrean kosong." << endl;
+    } else {
+        cout << "Anrian depan" << endl;
+        for (int i = front; i <= rear; i++) {
+            penumpang* p = (antrean + i);
+            cout << i + 1 << ". " << p->nama << " [" << p->nik << "]" << endl;
+        }
+        cout << "Antrean belakang" << endl;
+    }
 }
 
 void linear_rute(kereta* arr, int n) {
