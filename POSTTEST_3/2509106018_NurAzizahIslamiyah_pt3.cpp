@@ -174,6 +174,19 @@ void selectionsort_harga(kereta* arr, int n) {
     }
 }
 
+void enqueue(string nama, string info) {
+    if (rear == MAX_SISTEM - 1)
+    cout << "Antrian Penuh" << endl;
+    else {
+        if (front == -1) front = 0;
+        rear++;
+        transaksi* p = (antrean + rear);
+        p->nama_penumpang = nama;
+        p->detail_tiket = info;
+        cout << "Penumpang berhasil di tambahkan ke antrian." << endl;
+    }
+}
+
 int main() {
     kereta daftar_kereta[MAX_KAPASITAS] = {
         {102, "Thomas Rail", "Jakarta", "Surabaya", 500000},
