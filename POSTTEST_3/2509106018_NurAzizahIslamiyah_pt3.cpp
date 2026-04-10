@@ -20,9 +20,6 @@ struct penumpang {
 
 const int MAX_KAPASITAS = 100;
 const int MAX_QUEUE = 10;
-penumpang antrean[MAX_QUEUE];
-int front = -1;
-int rear = -1;
 
 void header() {
     cout << "================================================================================" << endl;
@@ -87,15 +84,17 @@ void linear_rute(kereta* arr, int n) {
     bool ketemu = false;
     for (int i = 0; i < n; i++) {
         cout << "Indeks " << i << ": ";
-        if ((arr + i)->asal == asal && (arr + i)->tujuan == tujuan) {
-            cout << "Rute ditemukan" << endl;
+        if (case_sensitif((arr + i)->asal, asal) && case_sensitif((arr + i)->tujuan, tujuan)) {
+            cout << (arr+i)->nama_kereta << " (" << (arr+i)->no_kereta << ")" << endl;
+            cout << "   -- Rute ditemukan --" << endl;
             ketemu = true;
             break;
         }
-        cout << "Belum ketemu" << endl;
+        cout << (arr+i)->nama_kereta << " (" << (arr+i)->no_kereta << ")" << endl;
+        cout << "   -- Belum ketemu -- " << endl;
     }
     if (!ketemu)
-        cout << "Rute tidak ditemukan" << endl;
+        cout << "\n >> Rute tidak ditemukan" << endl;
         getch();
     }
 
@@ -108,7 +107,7 @@ void jump_search(kereta* &arrRef, int n) {
     }
     
     int target;
-    cout << "Masukkan Nomor Kereta yang dicari: ";
+    cout << "Masukkan Nomor Kereta:";
     if (!(cin >> target)) {
         cin.clear();
         cin.ignore(1000, '\n');
@@ -124,15 +123,13 @@ void jump_search(kereta* &arrRef, int n) {
         break;
     }
 
-    bool ketemu = false;
     for (int i = prev; i < min(step, n); i++) {
         if (arrRef[i].no_kereta == target) {
             cout << "\nKereta Ditemukan: " << arrRef[i].nama_kereta << " [" << arrRef[i].no_kereta << "]";
-            ketemu = true;
-            break;
+            getch();
+            return;
         }
     }
-    if (!ketemu)
     cout << "Data tidak ditemukan.";
     getch();
 }
@@ -140,7 +137,8 @@ void jump_search(kereta* &arrRef, int n) {
 void merge(kereta arr[], int kiri, int mid, int kanan) {
     int n1 = mid - kiri + 1;
     int n2 = kanan - mid;
-    kereta left[n1], right[n2];
+    kereta *left = new kereta[n1];
+    kereta *right = new kereta[n2];
     for (int i = 0; i < n1; i++) left[i] = arr[kiri + i];
     for (int j = 0; j < n2; j++) right[j] = arr[mid + 1 + j];
     int i = 0, j = 0, k = kiri;
@@ -150,6 +148,8 @@ void merge(kereta arr[], int kiri, int mid, int kanan) {
     }
     while (i < n1) arr[k++] = left[i++];
     while (j < n2) arr[k++] = right[j++];
+    delete[] left;
+    delete[] right;
 }
 
 void merge_nama(kereta* arr, int kiri, int kanan) {
