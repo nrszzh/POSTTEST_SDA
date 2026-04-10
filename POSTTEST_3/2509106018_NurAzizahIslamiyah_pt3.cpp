@@ -16,27 +16,13 @@ struct kereta {
 struct penumpang {
     string nama;
     string nik;
-}
+};
 
 const int MAX_KAPASITAS = 100;
 const int MAX_QUEUE = 10;
-
 penumpang antrean[MAX_QUEUE];
 int front = -1;
 int rear = -1;
-
-void swapPointer(kereta* a, kereta* b) {
-    kereta temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-bool case_sensitif(string a, string b) {
-    if (a.length() != b.length()) return false;
-    for (int i = 0; i < (int)a.length(); i++) {
-        if (tolower(a[i]) != tolower(b[i])) return false;
-    } return true;
-}
 
 void header() {
     cout << "================================================================================" << endl;
@@ -56,7 +42,7 @@ void jadwal(kereta* arr, int n, string judul) {
     } else {
         header();
         for (int i = 0; i < n; i++) {
-            kereta *p = (arr + 1);
+            kereta *p = (arr + i);
             cout << "| " << setw(5) << left << p->no_kereta 
                 << "| " << setw(18) << left << p->nama_kereta 
                 << "| " << setw(15) << left << p->asal 
@@ -73,34 +59,11 @@ void swap(kereta* a, kereta* b) {
     *b = temp;
 }
 
-void enqueue() {
-    if (rear == MAX_QUEUE - 1) {
-        cout << "Antrean Penuh." << endl;
-    } else {
-        if (front == -1) front = 0;
-        rear++;
-        cin.ignore();
-        cout << "Nama Penumpang : "; 
-        getline(cin, antrean[rear].nama);
-        cout << "NIK            : "; 
-        getline(cin, antrean[rear].nik);
-        cout << "Penumpang berhasil masuk antrean." << endl;
-    }
-}
-
-void tampilQueue() {
-    system("cls");
-    cout << ">>> ANTREAN BELI TIKET <<<" << endl;
-    if (front == -1 || front > rear) {
-        cout << "Antrean kosong." << endl;
-    } else {
-        cout << "Anrian depan" << endl;
-        for (int i = front; i <= rear; i++) {
-            penumpang* p = (antrean + i);
-            cout << i + 1 << ". " << p->nama << " [" << p->nik << "]" << endl;
-        }
-        cout << "Antrean belakang" << endl;
-    }
+bool case_sensitif(string a, string b) {
+    if (a.length() != b.length()) return false;
+    for (int i = 0; i < (int)a.length(); i++) {
+        if (tolower(a[i]) != tolower(b[i])) return false;
+    } return true;
 }
 
 void linear_rute(kereta* arr, int n) {
@@ -110,7 +73,7 @@ void linear_rute(kereta* arr, int n) {
         getch();
         return;
     }
-    jadwal(arr, n, "PENCARIAN RUTE");
+    jadwal(arr, n, "CARI RUTE KEBEERANGKATAN");
     string asal, tujuan;
     cin.ignore();
     cout << endl;
@@ -131,20 +94,17 @@ void linear_rute(kereta* arr, int n) {
         }
         cout << "Belum ketemu" << endl;
     }
-    if (!ketemu) {
+    if (!ketemu)
         cout << "Rute tidak ditemukan" << endl;
-        }
-        cout << "--- Pencarian Selesai ---";
         getch();
     }
 
 void jump_search(kereta* &arrRef, int n) { 
     system("cls");
-    //autosort
     for (int i = 0; i < n - 1; i++) {
         int m = i;
         for (int j = i + 1; j < n; j++) if (arrRef[j].no_kereta < arrRef[m].no_kereta) m = j;
-        swapPointer(&arrRef[m], &arrRef[i]);
+        swap(&arrRef[m], &arrRef[i]);
     }
     
     int target;
@@ -225,6 +185,7 @@ int main() {
     int jml_kereta = 5;
     int pil;
     kereta* ptrData = daftar_kereta; 
+
     do {
         system("cls");
         cout << "==========================================================" << endl;
@@ -232,24 +193,28 @@ int main() {
         cout << "==========================================================" << endl;
         cout << "| 1. | Lihat Jadwal Kereta                               |" << endl;
         cout << "| 2. | Tambah Jadwal Kereta                              |" << endl;
-        cout << "| 3. | Cari Rute                                         |" << endl;
-        cout << "| 4. | Cari No kereta                                    |" << endl;
+        cout << "| 3. | Cari Rute Kereta                                  |" << endl;
+        cout << "| 4. | Cari Nomor Kereta                                 |" << endl;
         cout << "| 5. | Urutkan Nama kereta A-Z                           |" << endl;
         cout << "| 6. | Urutkan Harga Termurah                            |" << endl;
         cout << "| 0. | Keluar                                            |" << endl;
         cout << "==========================================================" << endl;
         cout << "Pilihan: ";
-        cin >> pil;
+        if (!(cin >> pil)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            continue;
+        }
 
         switch (pil) {
             case 1: 
-            jadwal(daftar_kereta, jml_kereta, "DAFTAR JADWAL");
+            jadwal(ptrData, jml_kereta, "JADWAL KEBERANGKATAN KERETA");
             getch();
             break;
 
             case 2: 
             if (jml_kereta < MAX_KAPASITAS) {
-                kereta* p = daftar_kereta + jml_kereta;
+                kereta* p = (ptrData + jml_kereta);
                 system("cls");
                 cout << "No kereta   : ";
                 cin >> p->no_kereta;
@@ -267,11 +232,14 @@ int main() {
                 cout << endl;
                 cout << "-- Jadwal ditambahkan --" << endl;
                 getch();
-                break;
+            } else {
+                cout << "-- Kapasitas penuh --" << endl;
+                getch();
             }
+                break;
 
             case 3: 
-            linear_rute(daftar_kereta, jml_kereta);
+            linear_rute(ptrData, jml_kereta);
             break;
 
             case 4: 
@@ -280,14 +248,14 @@ int main() {
 
 
             case 5: 
-                merge_nama(daftar_kereta, 0, jml_kereta - 1); 
-                jadwal(daftar_kereta, jml_kereta, "HASIL MERGE SORT NAMA");
+                merge_nama(ptrData, 0, jml_kereta - 1); 
+                jadwal(ptrData, jml_kereta, "HASIL SORT NAMA");
                 getch(); 
                 break;
 
             case 6: 
-            selectionsort_harga(daftar_kereta, jml_kereta); 
-            jadwal(daftar_kereta, jml_kereta, "HASIL SORT HARGA");
+            selectionsort_harga(ptrData, jml_kereta); 
+            jadwal(ptrData, jml_kereta, "HASIL SORT HARGA");
             getch(); 
             break;
         }
