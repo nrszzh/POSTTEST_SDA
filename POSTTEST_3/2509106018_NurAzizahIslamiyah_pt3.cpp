@@ -13,13 +13,20 @@ struct kereta {
     int harga;
 };
 
-struct penumpang {
-    string nama;
-    string nik;
+struct transaksi {
+    string nama_penumpang;
+    string detail_tiket;
 };
 
 const int MAX_KAPASITAS = 100;
-const int MAX_QUEUE = 10;
+const int MAX_SISTEM = 10;
+
+transaksi antrean[MAX_SISTEM];
+int front = -1, rear = -1;
+
+transaksi riwayat[MAX_SISTEM];
+int top = -1;
+
 
 void header() {
     cout << "================================================================================" << endl;
