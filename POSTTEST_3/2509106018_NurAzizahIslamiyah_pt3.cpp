@@ -194,6 +194,22 @@ void enqueue(string nama, string info) {
     }
 }
 
+void dequeue() {
+    if (front == -1 || front > rear)
+    cout << "Antrian kosong" << endl;
+    else {
+        transaksi proses = *(antrean + front);
+        if (top < MAX_SISTEM - 1) {
+            top++;
+            *(riwayat + top) = proses;
+            cout << "\n Berhasil, Tiket: " << proses.nama_penumpang << endl;
+        }
+        front++;
+        if (front > rear) {
+            front = -1; rear = -1; }
+    }
+}
+
 int main() {
     kereta daftar_kereta[MAX_KAPASITAS] = {
         {102, "Thomas Rail", "Jakarta", "Surabaya", 500000},
