@@ -385,3 +385,26 @@ else if (pilihan == 2) {
                     ehr_input();
                     continue; 
                 }
+
+                switch (sub) {
+                    case 1: {
+                        string n; 
+                        cout << " Nama Penumpang: "; 
+                        cin.ignore(); 
+                        getline(cin, n);
+                        
+                        cout << " Index Kereta (0-" << jml_kereta - 1 << "): ";
+                        int idx;
+                        if (!(cin >> idx)) {
+                            ehr_input();
+                        } else {
+                            if (idx >= 0 && idx < jml_kereta) {
+                                string info = (ptrData + idx)->nama_kereta + " [" + (ptrData + idx)->asal + "]";
+                                enqueue(n, info);
+                            } else {
+                                cout << "Index tidak ada" << endl;
+                            }
+                        }
+                        getch(); 
+                        break;
+                    }
