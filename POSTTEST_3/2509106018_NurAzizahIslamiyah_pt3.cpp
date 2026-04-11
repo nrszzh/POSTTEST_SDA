@@ -408,3 +408,17 @@ else if (pilihan == 2) {
                         getch(); 
                         break;
                     }
+
+                    case 0:
+                        default:
+                        cout << "\n Pilihan tidak tersedia." << endl;
+                        getch();
+                        break;
+                }
+            } while (sub != 0);
+        }
+        
+    } while (pilihan != 0);
+
+    return 0;
+} 
