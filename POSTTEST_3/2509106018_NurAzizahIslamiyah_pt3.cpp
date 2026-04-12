@@ -21,13 +21,6 @@ struct transaksi {
 const int MAX_KAPASITAS = 100;
 const int MAX_SISTEM = 10;
 
-transaksi antrean[MAX_SISTEM];
-int front = -1, rear = -1;
-
-transaksi riwayat[MAX_SISTEM];
-int top = -1;
-
-
 void header() {
     cout << "================================================================================" << endl;
     cout << "| " << setw(5) << left << "ID" 
@@ -181,36 +174,38 @@ void selectionsort_harga(kereta* arr, int n) {
     }
 }
 
-void enqueue(string nama, string info) {
-    if (rear == MAX_SISTEM - 1)
-    cout << "Antrian Penuh" << endl;
-    else {
-        if (front == -1) front = 0;
-        rear++;
-        transaksi* p = (antrean + rear);
+void enqueue(transaksi* antrean, int* front, int* rear, string nama, string info) {
+    if (*rear == MAX_SISTEM - 1) {
+        cout << "Antrian Penuh" << endl;
+    } else {
+        if (*front == -1) *front = 0;
+        (*rear)++; // Dereferensi pointer untuk menaikkan nilai rear asli di main
+        
+        transaksi* p = (antrean + *rear);
         p->nama_penumpang = nama;
         p->detail_tiket = info;
-        cout << "Penumpang berhasil di tambahkan ke antrian." << endl;
+        cout << "Penumpang berhasil ditambahkan." << endl;
     }
 }
 
-void dequeue() {
-    if (front == -1 || front > rear) {
-        cout << "\n Antrean Kosong" << endl;
+void dequeue(transaksi* antrean, int* front, int* rear, transaksi* riwayat, int* top) {
+    // Underflow check menggunakan dereferensi pointer
+    if (*front == -1 || *front > *rear) {
+        cout << "\n Antrean Kosong." << endl;
     } else {
-        transaksi proses = *(antrean + front);
+        transaksi proses = *(antrean + *front);
         cout << "\n Penumpang    : " << proses.nama_penumpang << endl;
-        cout << " Detail Tiket   : " << proses.detail_tiket << endl;
-        cout << "\n >> Berhasil, Tiket: " << proses.nama_penumpang << endl;
+        cout << " Detail Tiket : " << proses.detail_tiket << endl;
+        cout << "\n >> Berhasil diproses, Tiket: " << proses.nama_penumpang << " [SELESAI]" << endl;
 
-        if (top < MAX_SISTEM - 1) {
-            top++;
-            *(riwayat + top) = proses;
+        if (*top < MAX_SISTEM - 1) {
+            (*top)++;
+            *(riwayat + *top) = proses;
         }
-        front++;
-        if (front > rear) {
-            front = -1; 
-            rear = -1; 
+        (*front)++;
+        if (*front > *rear) {
+            *front = -1; 
+            *rear = -1; 
         }
     }
 }
@@ -230,6 +225,10 @@ int main() {
         {104, "Gordon Big", "Bandung", "Solo", 480000},
         {106, "Percy GreenLoco", "Surabaya", "Bogor", 250000}
     };
+    transaksi antrean[MAX_SISTEM];
+    int front = -1, rear = -1;
+    transaksi riwayat[MAX_SISTEM];
+    int top = -1;
     int jml_kereta = 5;
     int pilihan = -1;
     int sub = -1;
@@ -364,20 +363,22 @@ int main() {
                         system("cls");
                         string n; 
                         cout << ">>> AMBIL ANTREAN <<<" << endl;
-                        cout << " Nama Penumpang: "; 
-                        cin.ignore(); 
+                        cout << " Nama Penumpang : "; 
+                        cin.ignore(1000, '\n');
                         getline(cin, n);
-                        
-                        cout << " Kereta (0-" << jml_kereta - 1 << ")  : ";
-                        int idx;
-                        if (!(cin >> idx)) {
+                        cout << " Nomor Kereta (0-" << jml_kereta << ") : ";
+                        int nomor;
+                        if (!(cin >> nomor)) {
                             ehr_input();
+                            sub = -1;
                         } else {
+                            int idx = nomor - 1;
                             if (idx >= 0 && idx < jml_kereta) {
-                                string info = (ptrData + idx)->nama_kereta + " [" + (ptrData + idx)->asal + "]";
-                                enqueue(n, info);
+                                kereta* k = (ptrData + idx);
+                                string info = k->nama_kereta + " [" + k->asal + " - " + k->tujuan + "]";
+                                enqueue(antrean, &front, &rear, n, info);
                             } else {
-                                cout << "Kereta tidak ada" << endl;
+                                cout << "\n Nomor kereta tidak valid (Pilih 0-" << jml_kereta << ")" << endl;
                             }
                         }
                         getch(); 
@@ -387,51 +388,52 @@ int main() {
                     case 2:
                         system("cls");
                         cout << ">>> PROSES ANTREAN TIKET <<<" << endl;
-                        dequeue();
+                        dequeue(antrean, &front, &rear, riwayat, &top); 
                         getch();
                         break;
 
                     case 3:
                         system("cls");
                         cout << ">>> ANTREAN TIKET <<<" << endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                        cout << "| NO  |    NAMA PENUMPANG     |                 DETAIL TIKET                  |" << endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
+                        cout << "----------------------------------------------------------------------------" << endl;
+                        cout << "| NO | NAMA PENUMPANG          | DETAIL TIKET                              |" << endl;
+                        cout << "----------------------------------------------------------------------------" << endl;
                         
                         if (front == -1 || front > rear) {
-                            cout << "|                          ( Tidak ada antrean )                               |" << endl;
+                            cout << "|              ( Antrian kosonng )                                         |" << endl;
                         } else {
+                            int no = 1;
                             for (int i = front; i <= rear; i++) {
                                 transaksi* p = (antrean + i);
-                                cout << "| " << left << setw(4) << (i - front + 1) 
-                                    << " | " << setw(21) << p->nama_penumpang 
-                                    << " | " << setw(45) << p->detail_tiket << " |" << endl;
+                                cout << "| " << left << setw(3) << no++ 
+                                    << "| " << setw(24) << p->nama_penumpang 
+                                    << "| " << setw(42) << p->detail_tiket << "|" << endl;
                             }
                         }
-                        cout << "--------------------------------------------------------------------------------" << endl;
+                        cout << "----------------------------------------------------------------------------" << endl;
                         getch();
                         break;
 
                     case 4:
                         system("cls");
                         cout << ">>> RIWAYAT TRANSAKSI <<<" << endl;
-                        cout << "---------------------------------------------------------------------" << endl;
-                        cout << "|  NO   |    NAMA PENUMPANG     |      DETAIL TIKET     |  STATUS   |" << endl;
-                        cout << "---------------------------------------------------------------------" << endl;
+                        cout << "---------------------------------------------------------------------------------------" << endl;
+                        cout << "| NO | NAMA PENUMPANG          | DETAIL TIKET                           | STATUS      |" << endl;
+                        cout << "---------------------------------------------------------------------------------------" << endl;
                         
                         if (top == -1) {
-                            cout << "|                ( Belum ada riwayat transaksi )                    |" << endl;
+                            cout << "|      ( Belum ada riwayat transaksi )                                                |" << endl;
                         } else {
                             int no = 1;
                             for (int i = top; i >= 0; i--) {
                                 transaksi* p = (riwayat + i);
-                                cout << "| " << left << setw(4) << no++ 
-                                    << " | " << setw(21) << p->nama_penumpang
-                                    << " | " << setw(21) << p->detail_tiket 
-                                    << " | " << setw(9) << "SUKSES" << " |" << endl;
+                                cout << "| " << left << setw(3) << no++ 
+                                    << "| " << setw(24) << p->nama_penumpang 
+                                    << "| " << setw(40) << p->detail_tiket 
+                                    << "| " << setw(12) << "SUKSES" << "|" << endl;
                             }
                         }
-                        cout << "---------------------------------------------------------------------" << endl;
+                        cout << "---------------------------------------------------------------------------------------" << endl;
                         getch();
                         break;
 
