@@ -195,18 +195,23 @@ void enqueue(string nama, string info) {
 }
 
 void dequeue() {
-    if (front == -1 || front > rear)
-    cout << "Antrian kosong" << endl;
-    else {
+    if (front == -1 || front > rear) {
+        cout << "\n Antrean Kosong" << endl;
+    } else {
         transaksi proses = *(antrean + front);
+        cout << "\n Penumpang    : " << proses.nama_penumpang << endl;
+        cout << " Detail Tiket   : " << proses.detail_tiket << endl;
+        cout << "\n >> Berhasil, Tiket: " << proses.nama_penumpang << endl;
+
         if (top < MAX_SISTEM - 1) {
             top++;
             *(riwayat + top) = proses;
-            cout << "\n Berhasil, Tiket: " << proses.nama_penumpang << endl;
         }
         front++;
         if (front > rear) {
-            front = -1; rear = -1; }
+            front = -1; 
+            rear = -1; 
+        }
     }
 }
 
@@ -215,13 +220,6 @@ void ehr_input() {
     cin.ignore(1000, '\n');
     cout << "\n >> Input harus berupa angka (Enter)" << endl;
     getch();
-}
-
-void header_pjg(string judul) {
-    system("cls");
-    cout << "================================================================================" << endl;
-    cout << " " << judul << endl;
-    cout << "================================================================================" << endl;
 }
 
 int main() {
@@ -233,8 +231,8 @@ int main() {
         {106, "Percy GreenLoco", "Surabaya", "Bogor", 250000}
     };
     int jml_kereta = 5;
-    int pilihan;
-    int sub;
+    int pilihan = -1;
+    int sub = -1;
     kereta* ptrData = daftar_kereta; 
 
     do {
@@ -242,13 +240,14 @@ int main() {
         cout << "==========================================================" << endl;
         cout << "|             SISTEM MANAJEMEN KERETA API                |" << endl;
         cout << "==========================================================" << endl;
-        cout << "| 1. | Database Management                               |" << endl;
-        cout << "| 2. | Operasional & Transaksi                           |" << endl;
+        cout << "| 1. | Database Kereta Api                               |" << endl;
+        cout << "| 2. | Transaksi Tiket                                   |" << endl;
         cout << "| 0. | Keluar                                            |" << endl;
         cout << "==========================================================" << endl;
         cout << "Pilihan: ";
         if (!(cin >> pilihan)) {
             ehr_input();
+            pilihan = -1;
             continue;
         }
 
@@ -256,42 +255,26 @@ int main() {
             do {
                 system("cls");
                 cout << "==========================================================" << endl;
-                cout << "|                DATABASE MANAGEMENT MENU                |" << endl;
+                cout << "|                    DATABASE KERETA API                 |" << endl;
                 cout << "==========================================================" << endl;
                 cout << "| 1. | Lihat Jadwal Kereta                               |" << endl;
                 cout << "| 2. | Tambah Jadwal Kereta                              |" << endl;
-                cout << "| 3. | Urutkan Nama A-Z (Merge)                          |" << endl;
-                cout << "| 4. | Urutkan Harga (Selection)                         |" << endl;
-                cout << "| 0. | Kembali ke Menu Utama                             |" << endl;
-                cout << "==========================================================" << endl;
-                cout << "Pilihan: ";
-                if (!(cin >> sub)) {
-                    ehr_input();
-                    continue;
-
-                if (pilihan == 1) {
-            do {
-                system("cls");
-                cout << "==========================================================" << endl;
-                cout << "|                DATABASE MANAGEMENT MENU                |" << endl;
-                cout << "==========================================================" << endl;
-                cout << "| 1. | Lihat Jadwal Kereta                               |" << endl;
-                cout << "| 2. | Tambah Jadwal Kereta                              |" << endl;
-                cout << "| 3. | Cari Rute Kereta (Linear Search)                  |" << endl;
-                cout << "| 4. | Cari Nomor Kereta (Jump Search)                   |" << endl;
-                cout << "| 5. | Urutkan Nama Kereta A-Z (Merge Sort)              |" << endl;
-                cout << "| 6. | Urutkan Harga Termurah (Selection Sort)           |" << endl;
-                cout << "| 0. | Kembali ke Menu Utama                             |" << endl;
+                cout << "| 3. | Cari Rute Kereta                                  |" << endl;
+                cout << "| 4. | Cari Nomor Kereta                                 |" << endl;
+                cout << "| 5. | Urutkan Nama Kereta A-Z                           |" << endl;
+                cout << "| 6. | Urutkan Harga Termurah                            |" << endl;
+                cout << "| 0. | Kembali                                           |" << endl;
                 cout << "==========================================================" << endl;
                 cout << "Pilihan: ";
 
                 if (!(cin >> sub)) {
                     ehr_input();
+                    sub = -1;
                     continue;
                 }
 
                 switch (sub) {
-                    case 1: 
+                    case 1:
                         jadwal(ptrData, jml_kereta, "JADWAL KEBERANGKATAN KERETA");
                         getch();
                         break;
@@ -300,7 +283,7 @@ int main() {
                         if (jml_kereta < MAX_KAPASITAS) {
                             kereta* p = (ptrData + jml_kereta);
                             system("cls");
-                            header_pjg("TAMBAH JADWAL KERETA");
+                            jadwal(ptrData, jml_kereta, "TAMBAH JADWAL KERETA");
                             cout << " No kereta   : ";
                             if (!(cin >> p->no_kereta)) { 
                                 ehr_input(); 
@@ -322,7 +305,7 @@ int main() {
                             jml_kereta++;
                             cout << "\n -- Jadwal Berhasil Ditambahkan --" << endl;
                         } else {
-                            cout << "\n Penuh" << endl;
+                            cout << "\n JadwalPenuh" << endl;
                         }
                         getch();
                         break;
@@ -340,60 +323,52 @@ int main() {
                             merge_nama(ptrData, 0, jml_kereta - 1); 
                             jadwal(ptrData, jml_kereta, "HASIL URUT NAMA KERETA");
                         } else {
-                            cout << "\n Data kosong." << endl;
-                        }
-                        getch(); 
-                        break;
-
-                    case 6: 
-                        if (jml_kereta > 0) {
-                            selectionsort_harga(ptrData, jml_kereta); 
-                            jadwal(ptrData, jml_kereta, "HASIL URURT HARGA KERETA");
-                        } else {
                             cout << "\nData kosong." << endl;
                         }
                         getch(); 
                         break;
 
-                    case 0:
-                        break;
+                    case 6: 
+                        selectionsort_harga(ptrData, jml_kereta); 
+                        jadwal(ptrData, jml_kereta, "HASIL SORT HARGA");
+                        getch(); 
+                    }
+                } while (sub != 0);
+            } 
 
-                    default:
-                        cout << "\nPilihan tidak tersedia." << endl;
-                        getch();
-                        break;
-                }
-            } while (sub != 0);
-        } 
-
-else if (pilihan == 2) {
+        else if (pilihan == 2) {   
             do {
+                sub = -1;
                 system("cls");
                 cout << "==========================================================" << endl;
-                cout << "|            OPERATIONAL & TRANSACTION MENU              |" << endl;
+                cout << "|                     TRANSAKSI TIKET                    |" << endl;
                 cout << "==========================================================" << endl;
                 cout << "| 1. | Ambil Antrean                                     |" << endl;
-                cout << "| 2. | Proses Tiket (Dequeue)                            |" << endl;
+                cout << "| 2. | Proses Tiket                                      |" << endl;
                 cout << "| 3. | Lihat Semua Antrean                               |" << endl;
-                cout << "| 4. | Hapus Transaksi Terakhir (Pop)                    |" << endl;
-                cout << "| 5. | Riwayat & Peek Status                             |" << endl;
-                cout << "| 0. | Kembali ke Menu Utama                             |" << endl;
+                cout << "| 4. | Riwayat Transaksi                                 |" << endl;
+                cout << "| 5. | Hapus Transaksi Terakhir                          |" << endl;
+                cout << "| 6. | Info Antrean dan Riwayat                          |" << endl;
+                cout << "| 0. | Kembali                                           |" << endl;
                 cout << "==========================================================" << endl;
                 cout << "Pilihan: ";
 
                 if (!(cin >> sub)) {
                     ehr_input();
+                    sub = -1;
                     continue; 
                 }
 
                 switch (sub) {
                     case 1: {
+                        system("cls");
                         string n; 
+                        cout << ">>> AMBIL ANTREAN <<<" << endl;
                         cout << " Nama Penumpang: "; 
                         cin.ignore(); 
                         getline(cin, n);
                         
-                        cout << " Index Kereta (0-" << jml_kereta - 1 << "): ";
+                        cout << " Kereta (0-" << jml_kereta - 1 << ")  : ";
                         int idx;
                         if (!(cin >> idx)) {
                             ehr_input();
@@ -402,23 +377,106 @@ else if (pilihan == 2) {
                                 string info = (ptrData + idx)->nama_kereta + " [" + (ptrData + idx)->asal + "]";
                                 enqueue(n, info);
                             } else {
-                                cout << "Index tidak ada" << endl;
+                                cout << "Kereta tidak ada" << endl;
                             }
                         }
                         getch(); 
                         break;
                     }
 
-                    case 0:
-                        default:
-                        cout << "\n Pilihan tidak tersedia." << endl;
+                    case 2:
+                        system("cls");
+                        cout << ">>> PROSES ANTREAN TIKET <<<" << endl;
+                        dequeue();
                         getch();
                         break;
-                }
+
+                    case 3:
+                        system("cls");
+                        cout << ">>> ANTREAN TIKET <<<" << endl;
+                        cout << "--------------------------------------------------------------------------------" << endl;
+                        cout << "| NO  |    NAMA PENUMPANG     |                 DETAIL TIKET                  |" << endl;
+                        cout << "--------------------------------------------------------------------------------" << endl;
+                        
+                        if (front == -1 || front > rear) {
+                            cout << "|                          ( Tidak ada antrean )                               |" << endl;
+                        } else {
+                            for (int i = front; i <= rear; i++) {
+                                transaksi* p = (antrean + i);
+                                cout << "| " << left << setw(4) << (i - front + 1) 
+                                    << " | " << setw(21) << p->nama_penumpang 
+                                    << " | " << setw(45) << p->detail_tiket << " |" << endl;
+                            }
+                        }
+                        cout << "--------------------------------------------------------------------------------" << endl;
+                        getch();
+                        break;
+
+                    case 4:
+                        system("cls");
+                        cout << ">>> RIWAYAT TRANSAKSI <<<" << endl;
+                        cout << "---------------------------------------------------------------------" << endl;
+                        cout << "|  NO   |    NAMA PENUMPANG     |      DETAIL TIKET     |  STATUS   |" << endl;
+                        cout << "---------------------------------------------------------------------" << endl;
+                        
+                        if (top == -1) {
+                            cout << "|                ( Belum ada riwayat transaksi )                    |" << endl;
+                        } else {
+                            int no = 1;
+                            for (int i = top; i >= 0; i--) {
+                                transaksi* p = (riwayat + i);
+                                cout << "| " << left << setw(4) << no++ 
+                                    << " | " << setw(21) << p->nama_penumpang
+                                    << " | " << setw(21) << p->detail_tiket 
+                                    << " | " << setw(9) << "SUKSES" << " |" << endl;
+                            }
+                        }
+                        cout << "---------------------------------------------------------------------" << endl;
+                        getch();
+                        break;
+
+                    case 5:
+                        system("cls");
+                        cout << ">>> HAPUS RIWAYAT TERAKHIR <<<" << endl;
+                        if (top == -1) {
+                            cout << " Riwayat transaksi kosong." << endl;
+                        } else {
+                            transaksi* pHapus = (riwayat + top);
+                            cout << " Menghapus riwayat transaksi: " << pHapus->nama_penumpang << endl;
+                            cout << "\n >> Riwayat berhasi dihapus" << endl;
+                        }
+                        getch();
+                        break;
+
+                    case 6:
+                        system("cls");
+                        cout << "==========================================================" << endl;
+                        cout << "|                INFO ANTREAN DAN RIWAYAT                |" << endl;
+                        cout << "==========================================================" << endl;
+                        cout << " [ ANTREAN TERDEPAN ]" << endl;
+                        if (front == -1 || front > rear) {
+                            cout << " > Tidak ada antrean." << endl;
+                        } else {
+                            cout << " > Nama   : " << (antrean + front)->nama_penumpang << endl;
+                            cout << " > Detail : " << (antrean + front)->detail_tiket << endl;
+                        }
+                        cout << "\n----------------------------------------------------------\n" << endl;
+
+                        cout << " [ TRANSAKSI TERAKHIR ]" << endl;
+                        if (top == -1) {
+                            cout << " > Belum ada riwayat transaksi." << endl;
+                        } else {
+                            cout << " > Nama   : " << (riwayat + top)->nama_penumpang << endl;
+                            cout << " > Detail : " << (riwayat + top)->detail_tiket << endl;
+                            cout << " > Status : SUKSES" << endl;
+                        }
+                        
+                        cout << "==========================================================" << endl;
+                        getch();
+                        break;
+                    }
             } while (sub != 0);
         }
-        
     } while (pilihan != 0);
-
     return 0;
-} 
+}
