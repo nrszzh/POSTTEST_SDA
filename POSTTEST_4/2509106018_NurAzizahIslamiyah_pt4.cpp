@@ -194,25 +194,19 @@ void enqueue(string nama, string info) {
     cout << "Penumpang berhasil ditambahkan." << endl;
 }
 
-void dequeue(transaksi* antrean, int* front, int* rear, transaksi* riwayat, int* top) {
-    if (*front == -1 || *front > *rear) {
+void dequeue() {
+    if (front == NULL) {
         cout << "\n Antrean Kosong." << endl;
-    } else {
-        transaksi proses = *(antrean + *front);
-        cout << "\n Penumpang    : " << proses.nama_penumpang << endl;
-        cout << " Detail Tiket : " << proses.detail_tiket << endl;
-        cout << "\n >> Berhasil diproses, Tiket: " << proses.nama_penumpang << " [SELESAI]" << endl;
-
-        if (*top < MAX_SISTEM - 1) {
-            (*top)++;
-            *(riwayat + *top) = proses;
-        }
-        (*front)++;
-        if (*front > *rear) {
-            *front = -1; 
-            *rear = -1; 
-        }
+        return;
     }
+        transaksi *temp = front;
+        cout << "\n Penumpang    : " << temp->nama_penumpang << endl;
+        cout << " Detail Tiket : " << temp->detail_tiket << endl;
+        cout << "\n >> Berhasil diproses, Tiket: " << temp->nama_penumpang << " [SELESAI]" << endl;
+
+    front = front->next;
+    if (front == NULL) rear = NULL;
+    delete temp;
 }
 
 void ehr_input() {
@@ -393,7 +387,7 @@ int main() {
                     case 2:
                         system("cls");
                         cout << ">>> PROSES ANTREAN TIKET <<<" << endl;
-                        dequeue(antrean, &front, &rear, riwayat, &top); 
+                        dequeue(); 
                         getch();
                         break;
 
