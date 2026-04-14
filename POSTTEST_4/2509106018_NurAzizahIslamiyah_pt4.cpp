@@ -19,12 +19,12 @@ struct transaksi {
     transaksi* next;
 };
 
-transaksi* front = NULL;
-transaksi* rear = NULL;
-transaksi* top = NULL;
+transaksi* front = nullptr;
+transaksi* rear = nullptr;
+transaksi* top = nullptr;
 
 const int MAX_KAPASITAS = 100;
-const int MAX_SISTEM = 10; //nop
+const int MAX_SISTEM = 10;
 
 void header() {
     cout << "================================================================================" << endl;
@@ -183,9 +183,9 @@ void enqueue(string nama, string info) {
     transaksi* baru = new transaksi;
     baru->nama_penumpang = nama;
     baru->detail_tiket = info;
-    baru->next = NULL;
+    baru->next = nullptr;
 
-    if (front == NULL) {
+    if (front == nullptr) {
         front = rear = baru;
     } else {
         rear->next = baru;
@@ -195,17 +195,23 @@ void enqueue(string nama, string info) {
 }
 
 void dequeue() {
-    if (front == NULL) {
+    if (front == nullptr) {
         cout << "\n Antrean Kosong." << endl;
         return;
     }
-        transaksi *temp = front;
-        cout << "\n Penumpang    : " << temp->nama_penumpang << endl;
-        cout << " Detail Tiket : " << temp->detail_tiket << endl;
-        cout << "\n >> Berhasil diproses, Tiket: " << temp->nama_penumpang << " [SELESAI]" << endl;
+    transaksi *temp = front;
+    cout << "\n Penumpang    : " << temp->nama_penumpang << endl;
+    cout << " Detail Tiket : " << temp->detail_tiket << endl;
+    cout << "\n >> Berhasil diproses, Tiket: " << temp->nama_penumpang << " [SELESAI]" << endl;
+
+    transaksi* riwayat_baru = new transaksi;
+    riwayat_baru->nama_penumpang = temp->nama_penumpang;
+    riwayat_baru->detail_tiket = temp->detail_tiket;
+    riwayat_baru->next = top;
+    top = riwayat_baru; //push riwayat setelh proses antrean
 
     front = front->next;
-    if (front == NULL) rear = NULL;
+    if (front == nullptr) rear = nullptr;
     delete temp;
 }
 
@@ -327,9 +333,15 @@ int main() {
                         break;
 
                     case 6: 
-                        selectionsort_harga(ptrData, jml_kereta); 
-                        jadwal(ptrData, jml_kereta, "HASIL SORT HARGA");
-                        getch(); 
+                        if (jml_kereta > 0) {
+                            selectionsort_harga(ptrData, jml_kereta); 
+                            jadwal(ptrData, jml_kereta, "HASIL SORT HARGA");
+                            getch(); 
+                        } else {
+                            cout << "\nData kosong." << endl;
+                        }
+                        getch();
+                        break;
                     }
                 } while (sub != 0);
             } 
@@ -365,19 +377,19 @@ int main() {
                         cout << " Nama Penumpang : "; 
                         cin.ignore(1000, '\n');
                         getline(cin, n);
-                        cout << " Nomor Kereta (0-" << jml_kereta << ") : ";
-                        int nomor;
-                        if (!(cin >> nomor)) {
+                        cout << " IDX Kereta (0-" << jml_kereta << ") : ";
+                        int id;
+                        if (!(cin >> id)) {
                             ehr_input();
                             sub = -1;
                         } else {
-                            int idx = nomor - 1;
+                            int idx = id - 1;
                             if (idx >= 0 && idx < jml_kereta) {
                                 kereta* k = (ptrData + idx);
                                 string info = k->nama_kereta + " [" + k->asal + " - " + k->tujuan + "]";
                                 enqueue(n, info);
                             } else {
-                                cout << "\n Nomor kereta tidak valid (Pilih 0-" << jml_kereta << ")" << endl;
+                                cout << "\n indeks kereta tidak valid (Pilih 0-" << jml_kereta << ")" << endl;
                             }
                         }
                         getch(); 
