@@ -16,10 +16,15 @@ struct kereta {
 struct transaksi {
     string nama_penumpang;
     string detail_tiket;
+    transaksi* next;
 };
 
+transaksi* front = NULL;
+transaksi* rear = NULL;
+transaksi* top = NULL;
+
 const int MAX_KAPASITAS = 100;
-const int MAX_SISTEM = 10;
+const int MAX_SISTEM = 10; //nop
 
 void header() {
     cout << "================================================================================" << endl;
@@ -174,17 +179,19 @@ void selectionsort_harga(kereta* arr, int n) {
     }
 }
 
-void enqueue(transaksi* antrean, int* front, int* rear, string nama, string info) {
-    if (*rear == MAX_SISTEM - 1) {
-        cout << "Antrian Penuh" << endl;
+void enqueue(string nama, string info) {
+    transaksi* baru = new transaksi;
+    baru->nama_penumpang = nama;
+    baru->detail_tiket = info;
+    baru->next = NULL;
+
+    if (front == NULL) {
+        front = rear = baru;
     } else {
-        if (*front == -1) *front = 0;
-        (*rear)++;
-        transaksi* p = (antrean + *rear);
-        p->nama_penumpang = nama;
-        p->detail_tiket = info;
-        cout << "Penumpang berhasil ditambahkan." << endl;
+        rear->next = baru;
+        rear = baru;
     }
+    cout << "Penumpang berhasil ditambahkan." << endl;
 }
 
 void dequeue(transaksi* antrean, int* front, int* rear, transaksi* riwayat, int* top) {
@@ -374,7 +381,7 @@ int main() {
                             if (idx >= 0 && idx < jml_kereta) {
                                 kereta* k = (ptrData + idx);
                                 string info = k->nama_kereta + " [" + k->asal + " - " + k->tujuan + "]";
-                                enqueue(antrean, &front, &rear, n, info);
+                                enqueue(n, info);
                             } else {
                                 cout << "\n Nomor kereta tidak valid (Pilih 0-" << jml_kereta << ")" << endl;
                             }
