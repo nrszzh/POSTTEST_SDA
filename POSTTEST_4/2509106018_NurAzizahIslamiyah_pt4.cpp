@@ -24,7 +24,6 @@ transaksi* rear = nullptr;
 transaksi* top = nullptr;
 
 const int MAX_KAPASITAS = 100;
-const int MAX_SISTEM = 10;
 
 void header() {
     cout << "================================================================================" << endl;
@@ -230,10 +229,6 @@ int main() {
         {104, "Gordon Big", "Bandung", "Solo", 480000},
         {106, "Percy GreenLoco", "Surabaya", "Bogor", 250000}
     };
-    transaksi antrean[MAX_SISTEM];
-    int front = -1, rear = -1;
-    transaksi riwayat[MAX_SISTEM];
-    int top = -1;
     int jml_kereta = 5;
     int pilihan = -1;
     int sub = -1;
@@ -410,15 +405,16 @@ int main() {
                         cout << "| NO | NAMA PENUMPANG          | DETAIL TIKET                              |" << endl;
                         cout << "----------------------------------------------------------------------------" << endl;
                         
-                        if (front == -1 || front > rear) {
+                        if (front == nullptr) {
                             cout << "|              ( Antrian kosonng )                                         |" << endl;
                         } else {
                             int no = 1;
-                            for (int i = front; i <= rear; i++) {
-                                transaksi* p = (antrean + i);
+                            transaksi *temp = front;
+                            while (temp != nullptr) {
                                 cout << "| " << left << setw(3) << no++ 
-                                    << "| " << setw(24) << p->nama_penumpang 
-                                    << "| " << setw(42) << p->detail_tiket << "|" << endl;
+                                    << "| " << setw(24) << temp->nama_penumpang 
+                                    << "| " << setw(42) << temp->detail_tiket << "|" << endl;
+                                temp = temp->next;
                             }
                         }
                         cout << "----------------------------------------------------------------------------" << endl;
