@@ -67,6 +67,11 @@ bool case_sensitif(string a, string b) {
     } return true;
 }
 
+void kembali() {
+    cout << "\n<(0) Kembali";
+    getch();
+}
+
 void linear_rute(kereta* arr, int n) {
     system("cls");
     if (n == 0) {
@@ -99,7 +104,6 @@ void linear_rute(kereta* arr, int n) {
     }
     if (!ketemu)
         cout << "\n >> Rute tidak ditemukan" << endl;
-        getch();
     }
 
 void jump_search(kereta* &arrRef, int n) { 
@@ -135,7 +139,6 @@ void jump_search(kereta* &arrRef, int n) {
         }
     }
     cout << "Data tidak ditemukan.";
-    getch();
 }
 
 void merge(kereta arr[], int kiri, int mid, int kanan) {
@@ -275,7 +278,7 @@ int main() {
                 switch (sub) {
                     case 1:
                         jadwal(ptrData, jml_kereta, "JADWAL KEBERANGKATAN KERETA");
-                        getch();
+                        kembali();
                         break;
 
                     case 2: 
@@ -306,15 +309,17 @@ int main() {
                         } else {
                             cout << "\n JadwalPenuh" << endl;
                         }
-                        getch();
+                        kembali();
                         break;
 
                     case 3: 
                         linear_rute(ptrData, jml_kereta);
+                        kembali();
                         break;
 
                     case 4: 
                         jump_search(ptrData, jml_kereta);
+                        kembali();
                         break;
 
                     case 5: 
@@ -324,18 +329,17 @@ int main() {
                         } else {
                             cout << "\nData kosong." << endl;
                         }
-                        getch(); 
+                        kembali();
                         break;
 
                     case 6: 
                         if (jml_kereta > 0) {
                             selectionsort_harga(ptrData, jml_kereta); 
                             jadwal(ptrData, jml_kereta, "HASIL SORT HARGA");
-                            getch(); 
                         } else {
                             cout << "\nData kosong." << endl;
                         }
-                        getch();
+                        kembali();
                         break;
                     }
                 } while (sub != 0);
@@ -367,11 +371,12 @@ int main() {
                 switch (sub) {
                     case 1: {
                         system("cls");
-                        string n; 
+                        string nama_penumpang; 
+                        jadwal(ptrData, jml_kereta, "DATA KERETA API");
                         cout << ">>> AMBIL ANTREAN <<<" << endl;
                         cout << " Nama Penumpang   : "; 
                         cin.ignore(1000, '\n');
-                        getline(cin, n);
+                        getline(cin, nama_penumpang);
                         cout << " IDX Kereta (0-" << jml_kereta << ") : ";
                         int id;
                         if (!(cin >> id)) {
@@ -382,12 +387,12 @@ int main() {
                             if (idx >= 0 && idx < jml_kereta) {
                                 kereta* k = (ptrData + idx);
                                 string info = k->nama_kereta + " [" + k->asal + " - " + k->tujuan + "]";
-                                enqueue(n, info);
+                                enqueue(nama_penumpang, info);
                             } else {
                                 cout << "\n indeks kereta tidak valid (Pilih 0-" << jml_kereta << ")" << endl;
                             }
                         }
-                        getch(); 
+                        kembali();
                         break;
                     }
 
@@ -395,7 +400,7 @@ int main() {
                         system("cls");
                         cout << ">>> PROSES ANTREAN TIKET <<<" << endl;
                         dequeue(); 
-                        getch();
+                        kembali();
                         break;
 
                     case 3:
@@ -418,7 +423,7 @@ int main() {
                             }
                         }
                         cout << "----------------------------------------------------------------------------" << endl;
-                        getch();
+                        kembali();
                         break;
 
                     case 4:
@@ -436,13 +441,13 @@ int main() {
                             while (temp != nullptr) {
                                 cout << "| " << left << setw(3) << no++ 
                                     << "| " << setw(24) << temp->nama_penumpang 
-                                    << "| " << setw(40) << temp->detail_tiket 
+                                    << "| " << setw(39) << temp->detail_tiket 
                                     << "| " << setw(12) << "SUKSES" << "|" << endl;
                                 temp = temp->next;
                             }
                         }
                         cout << "---------------------------------------------------------------------------------------" << endl;
-                        getch();
+                        kembali();
                         break;
 
                     case 5:
@@ -457,7 +462,7 @@ int main() {
                             top = top->next;
                             delete del;
                         }
-                        getch();
+                        kembali();
                         break;
 
                     case 6:
@@ -484,7 +489,7 @@ int main() {
                         }
                         
                         cout << "==========================================================" << endl;
-                        getch();
+                        kembali();
                         break;
                     }
             } while (sub != 0);
