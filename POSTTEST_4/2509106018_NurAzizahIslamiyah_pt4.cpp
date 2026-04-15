@@ -369,7 +369,7 @@ int main() {
                         system("cls");
                         string n; 
                         cout << ">>> AMBIL ANTREAN <<<" << endl;
-                        cout << " Nama Penumpang : "; 
+                        cout << " Nama Penumpang   : "; 
                         cin.ignore(1000, '\n');
                         getline(cin, n);
                         cout << " IDX Kereta (0-" << jml_kereta << ") : ";
@@ -438,6 +438,7 @@ int main() {
                                     << "| " << setw(24) << temp->nama_penumpang 
                                     << "| " << setw(40) << temp->detail_tiket 
                                     << "| " << setw(12) << "SUKSES" << "|" << endl;
+                                temp = temp->next;
                             }
                         }
                         cout << "---------------------------------------------------------------------------------------" << endl;
@@ -465,20 +466,20 @@ int main() {
                         cout << "|                INFO ANTREAN DAN RIWAYAT                |" << endl;
                         cout << "==========================================================" << endl;
                         cout << " [ ANTREAN TERDEPAN ]" << endl;
-                        if (front == -1 || front > rear) {
+                        if (front == nullptr) {
                             cout << " > Tidak ada antrean." << endl;
                         } else {
-                            cout << " > Nama   : " << (antrean + front)->nama_penumpang << endl;
-                            cout << " > Detail : " << (antrean + front)->detail_tiket << endl;
+                            cout << " > Nama   : " << front->nama_penumpang << endl;
+                            cout << " > Detail : " << front->detail_tiket << endl;
                         }
                         cout << "\n----------------------------------------------------------\n" << endl;
 
                         cout << " [ TRANSAKSI TERAKHIR ]" << endl;
-                        if (top == -1) {
+                        if (top == nullptr) {
                             cout << " > Belum ada riwayat transaksi." << endl;
                         } else {
-                            cout << " > Nama   : " << (riwayat + top)->nama_penumpang << endl;
-                            cout << " > Detail : " << (riwayat + top)->detail_tiket << endl;
+                            cout << " > Nama   : " << top->nama_penumpang << endl;
+                            cout << " > Detail : " << top->detail_tiket << endl;
                             cout << " > Status : SUKSES" << endl;
                         }
                         
