@@ -447,12 +447,14 @@ int main() {
                     case 5:
                         system("cls");
                         cout << ">>> HAPUS RIWAYAT TERAKHIR <<<" << endl;
-                        if (top == -1) {
+                        if (top == nullptr) {
                             cout << " Riwayat transaksi kosong." << endl;
                         } else {
-                            transaksi* pHapus = (riwayat + top);
-                            cout << " Menghapus riwayat transaksi: " << pHapus->nama_penumpang << endl;
+                            transaksi *del = top;;
+                            cout << " Menghapus riwayat transaksi: " << del->nama_penumpang << endl;
                             cout << "\n >> Riwayat berhasi dihapus" << endl;
+                            top = top->next;
+                            delete del;
                         }
                         getch();
                         break;
