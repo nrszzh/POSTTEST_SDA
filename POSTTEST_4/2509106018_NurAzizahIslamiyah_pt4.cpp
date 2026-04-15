@@ -428,15 +428,15 @@ int main() {
                         cout << "| NO | NAMA PENUMPANG          | DETAIL TIKET                           | STATUS      |" << endl;
                         cout << "---------------------------------------------------------------------------------------" << endl;
                         
-                        if (top == -1) {
+                        if (top == nullptr) {
                             cout << "|      ( Belum ada riwayat transaksi )                                                |" << endl;
                         } else {
                             int no = 1;
-                            for (int i = top; i >= 0; i--) {
-                                transaksi* p = (riwayat + i);
+                            transaksi* temp = top;
+                            while (temp != nullptr) {
                                 cout << "| " << left << setw(3) << no++ 
-                                    << "| " << setw(24) << p->nama_penumpang 
-                                    << "| " << setw(40) << p->detail_tiket 
+                                    << "| " << setw(24) << temp->nama_penumpang 
+                                    << "| " << setw(40) << temp->detail_tiket 
                                     << "| " << setw(12) << "SUKSES" << "|" << endl;
                             }
                         }
